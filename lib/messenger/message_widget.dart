@@ -17,20 +17,21 @@ class MessageWidget extends StatelessWidget {
               radius: 30,
               backgroundImage: AssetImage(user.image),
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.only(
-                bottom: 3,
-                end: 3,
-              ),
-              child: CircleAvatar(
-                radius: 8,
-                backgroundColor: Colors.white,
+            if (user.isOnline)
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                  bottom: 3,
+                  end: 3,
+                ),
                 child: CircleAvatar(
-                  radius: 6,
-                  backgroundColor: Colors.green,
+                  radius: 8,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: 6,
+                    backgroundColor: Colors.green,
+                  ),
                 ),
               ),
-            )
           ],
         ),
         SizedBox(

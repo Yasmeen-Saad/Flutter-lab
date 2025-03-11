@@ -7,11 +7,13 @@ class Users{
   String message;
   String time;
   String image;
+  bool isOnline;
   Users({
     required this.name,
     required this.message,
     required this.time,
-    required this.image
+    required this.image,
+    required this.isOnline
   });
 }
 
@@ -23,48 +25,57 @@ class MessengerScreen extends StatelessWidget {
       name: "Yasmeen Saad",
       message: "Hey, how are you doing?",
       time: "10:25 AM",
-      image: "assets/images/pic6.png"
+      image: "assets/images/pic6.png",
+      isOnline: true
     ),
     Users(
         name: "Abdelrahman",
         message: "Just finished my project, feeling great!",
         time: "9:12 AM",
-        image:"assets/images/pic2.png"
+        image:"assets/images/pic2.png",
+        isOnline: true
     ),
     Users(
         name: "Farah Ahmed",
         message: "Hey, how are you doing?",
         time: "11:05 PM",
-        image: "assets/images/pic3.png"
+        image: "assets/images/pic3.png",
+        isOnline: false
     ),
     Users(
         name: "Hana Ali",
         message: "Let’s catch up later this week.",
-        time: "Yesterday",
-        image: "assets/images/pic4.png"
+        time: "8:15 PM",
+        image: "assets/images/pic4.png",
+        isOnline: false
     ),
     Users(
         name: "Selim",
         message: "I’m planning a trip to Alexandria next week.",
-        time: "2 days ago",
-        image: "assets/images/pic1.png"
+        time: "3:10 PM",
+        image: "assets/images/pic1.png",
+        isOnline: true
     ),
     Users(
         name: "Aya Abdelaziz",
         message: "Just finished watching a Netflix series, it was so good!",
-        time: "3:10 PM",
-        image: "assets/images/pic7.png"
+        time: "Yesterday",
+        image: "assets/images/pic7.png",
+        isOnline: false
     ),
     Users(
         name: "Salma Youssef",
         message: "Let's go for a run tomorrow morning.",
-        time: "8:15 PM",
-        image: "assets/images/pic5.png"
+        time: "2 days ago",
+        image: "assets/images/pic5.png",
+        isOnline: true
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final filteredUsers = users.where((user) => user.isOnline).toList();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[50],
@@ -139,10 +150,10 @@ class MessengerScreen extends StatelessWidget {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => StoryWidget(
-                    user: users[index],
+                    user: filteredUsers[index],
                   ),
                   separatorBuilder: (context, index) => SizedBox(width: 10),
-                  itemCount: users.length,
+                  itemCount: filteredUsers.length,
                 ),
               ),
               SizedBox(
