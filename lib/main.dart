@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:day3/home.dart';
 import 'package:day3/loginPage.dart';
+import 'package:day3/messenger/messenger_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         useMaterial3: false,
       ),
-      home: LoginPage(),
+      home: MessengerScreen(),
     );
   }
 }
