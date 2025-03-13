@@ -1,3 +1,4 @@
+import 'package:day3/products_view/home.dart';
 import 'package:flutter/material.dart';
 import 'package:day3/home.dart';
 import 'package:day3/loginPage.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         useMaterial3: false,
       ),
-      home: MessengerScreen(),
+      home: ProductsScreen(),
     );
   }
 }
