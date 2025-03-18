@@ -1,4 +1,5 @@
 // import 'package:day3/products_view/home.dart';
+import 'package:day3/firebase_cloud/createUser.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 // import 'package:day3/home.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         useMaterial3: false,
       ),
-      home: LoginPage(),
+      home: CreateUserScreen(),
     );
   }
 }
