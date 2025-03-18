@@ -1,25 +1,22 @@
-import 'package:day3/ResetPasswordPage.dart';
-import 'package:day3/dio/api_provider.dart';
+import 'package:day3/loginPage.dart';
 import 'package:day3/products_view/home.dart';
-import 'package:day3/registerPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  
+class _RegisterPageState extends State<RegisterPage> {
+
   bool isVisible = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('User Login',  style: TextStyle(
+              Text('User Register',  style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
@@ -49,15 +46,15 @@ class _LoginPageState extends State<LoginPage> {
                   if(value.isEmpty){
                     return 'Please Enter Your Email';
                   }
-                  // else if(emailValid == false){
-                  //   return 'Please Enter Valid Email';
-                  // }
+                  else if(emailValid == false){
+                    return 'Please Enter Valid Email';
+                  }
                   return null;
                 },
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email)
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email)
                 ),
               ),
               SizedBox(
@@ -99,40 +96,23 @@ class _LoginPageState extends State<LoginPage> {
                 child: MaterialButton(
                   onPressed: () async{
                     if(formKey.currentState!.validate()){
-                      // print(emailController.text);
-                      // print(passwordController.text);
-                      // await ApiProvider().userLoginEmail(
-                      //     email: emailController.text,
-                      //     password: passwordController.text
-                      // ).then((value) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Success')));
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(builder: (context) => ProductsScreen())
-                      //   );
-                      // }).catchError((error) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
-                      // });
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      await FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: emailController.text,
                           password: passwordController.text
                       ).then((user) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Success')));
+                        print(user.user!.email);
+                        print(user.user!.refreshToken);
                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ProductsScreen())
                         );
-                      }).catchError((error) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
-                     });
+                      });
                     }
-                    final SharedPreferences prefs = await SharedPreferences.getInstance();
-                    String tokenFromSharedPreferences =  prefs.getString('token')!;
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'Login',
+                      'Register',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -147,39 +127,21 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?"),
-                  TextButton(
-                      onPressed: (){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => RegisterPage())
-                        );
-                      },
-                      child: Text(
-                        'Register Now',
-                        style: TextStyle(color: Colors.deepPurple),
-                      ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Forget your password?"),
+                  Text("Do you have an account?"),
                   TextButton(
                     onPressed: (){
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ResetPasswordPage())
+                          MaterialPageRoute(builder: (context) => LoginPage())
                       );
                     },
                     child: Text(
-                      'Reset Password',
+                      'Login Now',
                       style: TextStyle(color: Colors.deepPurple),
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),

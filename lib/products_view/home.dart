@@ -4,22 +4,35 @@ import 'package:day3/products_view/product_card.dart';
 import 'package:flutter/material.dart';
 
 class ProductsScreen extends StatefulWidget {
-  const ProductsScreen({super.key});
+  ProductsScreen({super.key});
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-
   ProductsModel? productsModel;
+  bool isLoading = true;
 
-  getProductsFromApiProvider() async{
-    productsModel = await ApiProvider().getProducts();
+  Future<void> getProductsFromApiProvider() async {
+    try {
+      final result = await ApiProvider().getProducts();
+      setState(() {
+        productsModel = result;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error loading products: $e')));
+    }
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getProductsFromApiProvider();
   }
@@ -35,45 +48,52 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFe0e0e0),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.deepOrange,
         title: Text(
           'Products',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 24
+            fontSize: 24,
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              ListView.separated(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) => Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: ProductWidget(
-                        product: productsModel!.products[index],
+      body: isLoading
+        ? Center(child: CircularProgressIndicator())
+        : productsModel == null || productsModel!.products.isEmpty
+        ? Center(child: Text('No products available'))
+        : SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder:
+                      (context, index) => Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.white54,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: ProductWidget(
+                            product: productsModel!.products[index],
+                          ),
+                        ),
                       ),
-                    )
+                  separatorBuilder:
+                      (context, index) => SizedBox(height: 15),
+                  itemCount: productsModel?.products.length ?? 0,
                 ),
-                separatorBuilder: (context, index) => SizedBox(height: 15),
-                itemCount: productsModel!.products.length,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }

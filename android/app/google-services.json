@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "315115035698",
+    "project_id": "iti-front-718c7",
+    "storage_bucket": "iti-front-718c7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315115035698:android:826a455c044d377be2302b",
+        "android_client_info": {
+          "package_name": "com.example.day3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTW5PI-7U0sYLTKwjQchecCgOucQIgSio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
